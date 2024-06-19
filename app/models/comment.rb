@@ -13,6 +13,7 @@
 class Comment < ApplicationRecord
   validates(:commenter, { :presence => true })
 
+  # Returns the user who made the comment
   def commenter
     my_author_id = self.author_id
 

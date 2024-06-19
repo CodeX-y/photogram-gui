@@ -16,6 +16,7 @@ class Like < ApplicationRecord
     :uniqueness => { :scope => [:fan_id] }
   })
 
+  # Returns the user who liked the photo
   def fan
     my_fan_id = self.fan_id
 
@@ -26,6 +27,7 @@ class Like < ApplicationRecord
     return the_user
   end
 
+  # Returns the photo that's been liked
   def photo
     my_photo_id = self.photo_id
 
