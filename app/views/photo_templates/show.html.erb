@@ -88,7 +88,7 @@
 
 <h3>Add a new comment</h3>
 
-<form action ="/add_comment" method="post">
+<form action ="/add_comment/<%= @the_photo.id %>" method="post">
   <label for="photo_id"> Photo ID </label>
   <input id = "photo_id" type ="text" name = "the_photo_id" value = "<%=@the_photo.id%>">
 

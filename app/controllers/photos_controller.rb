@@ -16,7 +16,7 @@ class PhotosController < ApplicationController
   end
 
   def delete
-    the_id = params.fetch("toast_id")
+    the_id = params.fetch("path_id")
     matching_photos = Photo.where({:id => the_id})
     the_photo = matching_photos.at(0)
     the_photo.destroy
@@ -24,57 +24,43 @@ class PhotosController < ApplicationController
     redirect_to("/photos")
   end
 
-  # def add_comment
-  #   photo_id_input= params.fetch("the_photo_id")
-  #   author_id_input = params.fetch("the_author_id")
-  #   comment_input = params.fetch("the_comment")
-  
-  #   new_comment = Comment.new
+  def create
+    new_photo = Photo.new
 
-  #   new_comment.photo_id = photo_id_input
-  #   new_comment.author_id = author_id_input
-  #   new_comment.body = comment_input
+    new_photo.image = params.fetch("the_image")
+    new_photo.caption = params.fetch("the_caption")
+    new_photo.owner_id = params.fetch("the_owner")
 
-  #   new_comment.save
+    new_photo.save
 
-  #   matching_photos = Photo.where({:id => photo_id_input})
+    new_photo_id = new_photo.id
 
-  #   the_photo = matching_photos.at(0)
+    redirect_to("/photos/#{new_photo_id}")
+  end
 
-  #   redirect_to("/photos/" + the_photo.id.to_s)
-  # end
+  def update
+    the_id = params.fetch("path_id")
+    matching_photo = Photo.where( :id => the_id)
+    the_photo = matching_photo.at(0)
+    
+    the_photo.image = params.fetch("the_new_image")
+    the_photo.caption = params.fetch("the_new_caption")
 
+    the_photo.save
 
-  # def update
-  #   the_id = params.fetch("modify_id")
-  #   image = params.fetch("the_new_image")
-  #   caption = params.fetch("the_new_caption") 
+    redirect_to("/photos/#{the_photo.id}")
+  end
 
-  #   matching_photos = Photo.where({:id => the_id})
+  def add_comment
+    the_id = params.fetch("path_id")
+    new_comment = Comment.new
+    
+    new_comment.photo_id = params.fetch("path_id")
+    new_comment.body = params.fetch("the_comment")
+    new_comment.author_id = params.fetch("the_author_id")
 
-  #   the_photo = matching_photos.at(0)
-
-  #   the_photo.image = image
-  #   the_photo.caption = caption
-
-  #   the_photo.save
-
-  #   redirect_to("/photos/" + the_photo.id.to_s)
-  # end
-
-  # def create
-  #   input_image = params.fetch("the_image")
-  #   input_caption = params.fetch("the_caption")
-  #   input_owner_id = params.fetch("the_owner")
-
-  #   new_photo = Photo.new 
-
-  #   new_photo.image = input_image
-  #   new_photo.caption = input_caption
-  #   new_photo.owner_id = input_owner_id
-
-  #   new_photo.save
-
-  #   redirect_to("/photos/" + new_photo.id.to_s)
-  # end
+    new_comment.save
+    
+    redirect_to("/photos/#{the_id}")
+  end
 end
